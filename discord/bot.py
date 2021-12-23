@@ -951,12 +951,12 @@ class BotBase(ApplicationCommandMixin, CogMixin):
 
         return decorator
 
-    def dispatch(self, event_name: str, *args: Any, **kwargs: Any) -> None:
+    async def dispatch(self, event_name: str, *args: Any, **kwargs: Any) -> None:
         # super() will resolve to Client
-        super().dispatch(event_name, *args, **kwargs)  # type: ignore
+        await super().dispatch(event_name, *args, **kwargs)  # type: ignore
         ev = 'on_' + event_name
         for event in self.extra_events.get(ev, []):
-            self._schedule_event(event, ev, *args, **kwargs)  # type: ignore
+            await self._schedule_event(event, ev, *args, **kwargs)  # type: ignore
 
     def before_invoke(self, coro):
         """A decorator that registers a coroutine as a pre-invoke hook.
