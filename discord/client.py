@@ -363,7 +363,7 @@ class Client:
         # Schedules the task
         return asyncio.create_task(wrapped, name=f'pycord: {event_name}')
 
-    def dispatch(self, event: str, *args: Any, **kwargs: Any) -> None:
+    async def dispatch(self, event: str, *args: Any, **kwargs: Any) -> None:
         _log.debug('Dispatching event %s', event)
         method = 'on_' + event
 
@@ -401,7 +401,7 @@ class Client:
         except AttributeError:
             pass
         else:
-            self._schedule_event(coro, method, *args, **kwargs)
+            await self._schedule_event(coro, method, *args, **kwargs)
 
     async def on_error(self, event_method: str, *args: Any, **kwargs: Any) -> None:
         """|coro|
