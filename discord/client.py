@@ -358,8 +358,8 @@ class Client:
             except asyncio.CancelledError:
                 pass
 
-    def _schedule_event(self, coro: Callable[..., Coroutine[Any, Any, Any]], event_name: str, *args: Any, **kwargs: Any) -> asyncio.Task:
-        wrapped = self._run_event(coro, event_name, *args, **kwargs)
+    async def _schedule_event(self, coro: Callable[..., Coroutine[Any, Any, Any]], event_name: str, *args: Any, **kwargs: Any) -> asyncio.Task:
+        wrapped = await self._run_event(coro, event_name, *args, **kwargs)
         # Schedules the task
         return asyncio.create_task(wrapped, name=f'pycord: {event_name}')
 
